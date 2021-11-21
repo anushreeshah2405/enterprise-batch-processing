@@ -1,0 +1,56 @@
+<form [formGroup]="createForm" class="form" (ngSubmit)="submitJob()">
+    <div class="title">Job Configuration</div>
+<mat-grid-list cols="2" rowHeight="400px">
+    <mat-grid-tile>
+        <div class="contain">
+        <mat-form-field>
+            <mat-label>Job Name</mat-label>
+            <input matInput formControlName="jobName">
+            <mat-error>Enter job name</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Job Description</mat-label>
+            <input matInput formControlName="jobDescription">
+            <mat-error>Enter job description</mat-error>
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Input Source</mat-label>
+            <input matInput formControlName="input">
+            <mat-error>Enter folder location</mat-error>
+        </mat-form-field>
+        <mat-form-field >
+            <mat-label>Partition Size</mat-label>
+            <input matInput formControlName="size">
+            <mat-error>Enter partition size</mat-error>
+        </mat-form-field>
+    </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <div class="contain">
+         <mat-form-field>
+            <mat-label>Select</mat-label>
+            <mat-select formControlName="time" [(ngModel)]="timeValue" (selectionChange)="input()">
+              <mat-option value=0>Run Now</mat-option>
+              <mat-option value=1>Schedule</mat-option>
+            </mat-select>
+          </mat-form-field>
+        <mat-form-field *ngIf="timeValue=='1'">
+            <mat-label>Job Group</mat-label>
+            <input matInput formControlName="jobGroup"> 
+            <mat-error>Enter job group</mat-error>
+        </mat-form-field>
+        <mat-form-field *ngIf="timeValue=='1'">
+            <mat-label>Cron Expression</mat-label>
+            <input matInput formControlName="cron">
+            <mat-error>Enter a valid cron expresion</mat-error>
+        </mat-form-field>
+        <div class="formButtons">
+            <button mat-raised-button color="warn" type="button" (click)="openDialog()">Add Emails</button>
+            <button mat-raised-button color="primary" type="submit" style="display: block;" [disabled]="createForm.invalid">Run</button>
+        </div>
+        
+    </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>
+

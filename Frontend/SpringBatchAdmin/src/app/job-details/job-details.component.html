@@ -1,0 +1,102 @@
+<div class="spinnerClass" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+    <br>
+    <span class="md-headline">Loading</span>
+</div>
+
+<div class="table mat-elevation-z8" [hidden]="loading">
+    <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Job Instance Id: {{ jobInstanceId }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <table style="width: 300px;">
+                <tr>
+                    <td>Job Name : </td>
+                    <td>{{ listOfJobExecutions[0].jobName }}</td>
+                </tr>
+                <tr>
+                    <td>Job Status : </td>
+                    <td [innerHTML]="listOfJobExecutions[0].status | titlecase | status"></td>
+                </tr>
+            </table>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <b>Job Parameters</b> 
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <table style="width: 300px;">
+                    <tr>
+                        <td>Input Source : </td>
+                        <td>{{ listOfJobExecutions[0].jobParams.inputSource }}</td>
+                    </tr>
+                    <tr>
+                        <td>Partition Size : </td>
+                        <td>{{ listOfJobExecutions[0].jobParams.partitionSize }}</td>
+                    </tr>
+                </table>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="emails.length != 0">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                       <b>Mail Recipients</b> 
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list>
+                    <div  *ngFor="let mail of emails">
+                        <mat-list-item>{{mail}}</mat-list-item>
+                        <mat-divider></mat-divider>
+                    </div>
+                  </mat-list>
+            </mat-expansion-panel>
+        </mat-card-content>
+        <mat-card-actions>
+    
+          <button mat-raised-button color="warn" *ngIf="listOfJobExecutions[0].status == 'STARTED' || listOfJobExecutions[0].status == 'STARTING'" (click)="stopJob()">Stop</button>
+          <button mat-raised-button color="primary" *ngIf="listOfJobExecutions[0].status == 'STOPPED' || listOfJobExecutions[0].status == 'FAILED'" (click)="restartJob()">Restart</button>
+        </mat-card-actions>
+      </mat-card>
+    
+    <mat-table [dataSource]="dataSource">
+      <!-- Position Column -->
+      <ng-container matColumnDef="jobID">
+        <mat-header-cell *matHeaderCellDef> Job Execution Id </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.jobID}} </mat-cell>
+      </ng-container>
+    
+      <!-- Weight Column -->
+     
+      <!-- Symbol Column -->
+      <ng-container matColumnDef="createTime">
+        <mat-header-cell *matHeaderCellDef> Start Time </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.createTime | date:'medium':'IST'}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="endTime">
+        <mat-header-cell *matHeaderCellDef> End Time </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.endTime == null ? "-" : element.endTime | date:'medium':'IST'}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="duration">
+        <mat-header-cell *matHeaderCellDef> Duration </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.endTime == null ? "-" : calculateDuration(element.createTime,element.endTime) | date:'HH:mm:ss'}} </mat-cell>
+      </ng-container>
+    
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+        <mat-cell *matCellDef="let element" [innerHTML]="element.status | titlecase | status"></mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>  </mat-header-cell>
+        <mat-cell *matCellDef="let element"><button mat-button [routerLink]="['/jobExecution',element.jobID]">view</button></mat-cell>
+      </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    
+    </div>
+    

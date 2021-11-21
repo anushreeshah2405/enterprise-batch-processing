@@ -1,0 +1,39 @@
+.table {
+    text-align: center;
+    width: 70%;
+    margin: 30px auto;
+}
+
+mat-header-cell, mat-cell{
+    text-align: center;
+}
+
+mat-expansion-panel{
+    margin: 10px 0;
+}
+
+
+.example-card {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  td{
+      padding: 15px 20px;
+  }
+
+  mat-card-actions{
+      padding-left: 10px;
+  }
+
+  .spinnerClass{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    }
+    .spinnerClass span{
+    font-size: 20px;    
+    }

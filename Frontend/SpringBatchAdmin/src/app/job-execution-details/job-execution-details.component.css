@@ -1,0 +1,28 @@
+.table {
+    text-align: center;
+    width: 95%;
+    margin: 30px auto;
+
+}
+
+.mat-form-field {
+  font-size: 14px;
+  display: block;
+  width: 95%;
+margin: 10px auto -20px;
+}
+
+.CreateJob{
+  width: 95%;
+  margin: 30px auto 10px;
+  font-size: 30px;
+  font-weight: 600;
+}
+
+
+.box{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: cyan;
+}
